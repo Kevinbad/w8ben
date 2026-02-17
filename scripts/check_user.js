@@ -12,7 +12,6 @@ envContent.split('\n').forEach(line => {
 });
 
 const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL;
-// Use service role key if available, otherwise anon key (but service key needed for auth.admin)
 const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const isServiceKey = !!env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -26,52 +25,31 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 });
 
 async function main() {
-<<<<<<< HEAD
-    const TARGET_EMAIL = 'mapi2710@gmail.com';
+    const TARGET_EMAIL = 'damantilla654@gmail.com';
     console.log(`CHECKING USER: ${TARGET_EMAIL}`);
-=======
-    const email = 'davidmon.17@gmail.com';
-    console.log(`CHECKING USER: ${email}`);
->>>>>>> 86dc0d332eb9385bf5276e7ef765382ce31ae9c6
     console.log(`Using Service Key: ${isServiceKey}`);
 
-    // 1. Check Invites (Admin table, needs RLS bypass or Service Key)
+    // 1. Check Invites
     const { data: allInvites, error: inviteError } = await supabase.from('user_invites').select('*');
     if (inviteError) {
         console.error('Error fetching invites:', inviteError.message);
     } else {
         console.log(`TOTAL INVITES: ${allInvites.length}`);
-<<<<<<< HEAD
         const exactMatch = allInvites.find(i => i.email.toLowerCase() === TARGET_EMAIL.toLowerCase());
-=======
-        const exactMatch = allInvites.find(i => i.email.toLowerCase() === email.toLowerCase());
->>>>>>> 86dc0d332eb9385bf5276e7ef765382ce31ae9c6
         if (exactMatch) {
             console.log('EXACT INVITE FOUND:', exactMatch);
         } else {
             console.log('NO EXACT INVITE FOUND.');
-            // Check for potential typos/partial matches
-            const partial = allInvites.find(i => i.email.toLowerCase().includes('lau'));
-            if (partial) console.log('Partial Match Found:', partial);
         }
     }
 
-    // 2. Check Auth User and Profile (Needs Service Key for Auth)
+    // 2. Check Auth User and Profile
     if (isServiceKey) {
-<<<<<<< HEAD
         const { data: { users }, error: authError } = await supabase.auth.admin.listUsers();
-=======
-        const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
->>>>>>> 86dc0d332eb9385bf5276e7ef765382ce31ae9c6
         if (authError) {
             console.error('Auth Error:', authError.message);
         } else {
-            // Filter locally because listUsers doesn't support filtering by email in all versions/wrappers cleanly here
-<<<<<<< HEAD
             const user = users.find(u => u.email.toLowerCase() === TARGET_EMAIL.toLowerCase());
-=======
-            const user = authData.users.find(u => u.email.toLowerCase() === email.toLowerCase());
->>>>>>> 86dc0d332eb9385bf5276e7ef765382ce31ae9c6
 
             if (user) {
                 console.log('AUTH USER FOUND. ID:', user.id);

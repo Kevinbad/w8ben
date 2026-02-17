@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { getVerifiedProfile } from '@/app/dashboard/actions'
 
 interface LegalStepProps {
     initialData?: Record<string, string | boolean>
@@ -27,30 +28,26 @@ export function LegalStep({ initialData, onComplete, onBack }: LegalStepProps) {
     const containerRef = useRef<HTMLDivElement>(null)
     const supabase = createClient()
 
-    // Reload profile from DB to get fresh salary data
+
+
+    // ... (imports)
+
+    // Reload profile from DB to get fresh salary data using Admin bypass (Server Action)
     useEffect(() => {
         async function loadProfile() {
             try {
-                const { data: { user } } = await supabase.auth.getUser()
-                if (user) {
-                    const { data: profile } = await supabase
-                        .from('profiles')
-                        .select('*')
-                        .eq('id', user.id)
-                        .single()
-
-                    if (profile) {
-                        setProfileData(profile as Record<string, string | boolean>)
-                    }
+                const profile = await getVerifiedProfile()
+                if (profile) {
+                    setProfileData(profile as Record<string, string | boolean>)
                 }
             } catch (error) {
-                console.error('Error loading profile:', error)
+                console.error('Error loading verified profile:', error)
             } finally {
                 setLoadingProfile(false)
             }
         }
         loadProfile()
-    }, [supabase])
+    }, [])
 
     // Validate form state
     useEffect(() => {
@@ -213,20 +210,14 @@ export function LegalStep({ initialData, onComplete, onBack }: LegalStepProps) {
                     <Button
                         onClick={() => {
                             setLoadingProfile(true)
-                            // Re-trigger the useEffect
                             const loadProfile = async () => {
                                 try {
-                                    const { data: { user } } = await supabase.auth.getUser()
-                                    if (user) {
-                                        const { data: profile } = await supabase
-                                            .from('profiles')
-                                            .select('*')
-                                            .eq('id', user.id)
-                                            .single()
-                                        if (profile) setProfileData(profile as Record<string, string | boolean>)
-                                    }
+                                    const profile = await getVerifiedProfile()
+                                    if (profile) setProfileData(profile as Record<string, string | boolean>)
+                                    else toast.error('Could not fetch updated profile')
                                 } catch (error) {
                                     console.error(error)
+                                    toast.error('Failed to update status')
                                 } finally {
                                     setLoadingProfile(false)
                                 }
