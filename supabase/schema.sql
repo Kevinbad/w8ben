@@ -4,6 +4,7 @@ create table if not exists public.profiles (
   full_name text,
   government_id text,
   country text,
+  date_of_birth date,
   phone text,
   company text,
   dolar_tag text,

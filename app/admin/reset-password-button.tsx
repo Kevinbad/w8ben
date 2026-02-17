@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { KeyRound } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { updateUserPassword } from '@/app/admin/actions'
 
@@ -12,6 +11,11 @@ export function ResetPasswordButton({ userId, userEmail }: { userId: string, use
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [password, setPassword] = useState('')
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     async function handleReset() {
         if (!password || password.length < 6) {
@@ -36,12 +40,6 @@ export function ResetPasswordButton({ userId, userEmail }: { userId: string, use
         }
     }
 
-    const [mounted, setMounted] = useState(false)
-
-    useEffect(() => {
-        setMounted(true)
-    }, [])
-
     return (
         <>
             <Button
@@ -54,13 +52,20 @@ export function ResetPasswordButton({ userId, userEmail }: { userId: string, use
             </Button>
 
             {mounted && open && createPortal(
-                <div
-                    className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200"
-                    onClick={() => setOpen(false)}
-                >
+                <>
+                    {/* Backdrop */}
                     <div
-                        className="w-full max-w-md bg-[#1a1f36] border border-blue-500/50 rounded-lg shadow-2xl p-6 animate-in zoom-in-95 duration-200 relative"
-                        onClick={(e) => e.stopPropagation()}
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+                        style={{ zIndex: 99998 }}
+                        onClick={() => setOpen(false)}
+                    />
+
+                    {/* Modal Content - Centered independently */}
+                    <div
+                        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[#1a1f36] border border-blue-500/50 rounded-lg shadow-2xl p-6 animate-in zoom-in-95 duration-200"
+                        style={{ zIndex: 99999 }}
+                        role="dialog"
+                        aria-modal="true"
                     >
                         <button
                             onClick={() => setOpen(false)}
@@ -83,13 +88,13 @@ export function ResetPasswordButton({ userId, userEmail }: { userId: string, use
 
                             <div className="py-2">
                                 <label className="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-1 block">New Password</label>
-                                <Input
+                                <input
                                     autoFocus
                                     type="text"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Type new password here..."
-                                    className="bg-[#0f1225] border-blue-500/30 text-white placeholder:text-slate-600 focus-visible:ring-blue-500 h-12 text-lg"
+                                    className="w-full bg-[#0f1225] border border-blue-500/30 rounded-md px-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-12 text-lg"
                                 />
                             </div>
 
@@ -114,7 +119,7 @@ export function ResetPasswordButton({ userId, userEmail }: { userId: string, use
                             </div>
                         </div>
                     </div>
-                </div>,
+                </>,
                 document.body
             )}
         </>
