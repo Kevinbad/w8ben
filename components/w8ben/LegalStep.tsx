@@ -151,7 +151,7 @@ export function LegalStep({ formData, onComplete, onBack }: LegalStepProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-200 dark:border-slate-800 mb-8 h-[600px] flex flex-col">
+                <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-200 dark:border-slate-800 mb-8 h-[400px] md:h-[600px] flex flex-col">
                     <h3 className="font-semibold text-lg mb-2 shrink-0">Form W-8BEN Preview</h3>
                     <p className="text-muted-foreground text-sm mb-4 shrink-0">
                         Review your exact W-8BEN form below. Typing your name in the signature box will update the document in real time.
@@ -211,11 +211,11 @@ export function LegalStep({ formData, onComplete, onBack }: LegalStepProps) {
                     </div>
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-between pt-0 mt-4">
-                <Button variant="outline" onClick={onBack} disabled={loading}>
+            <CardFooter className="flex flex-col-reverse sm:flex-row justify-between pt-0 mt-4 gap-4">
+                <Button variant="outline" onClick={onBack} disabled={loading} className="w-full sm:w-auto">
                     Back
                 </Button>
-                <Button onClick={handleSubmit} disabled={!accepted || loading} className="bg-blue-600 hover:bg-blue-700 text-white min-w-[200px]">
+                <Button onClick={handleSubmit} disabled={!accepted || loading} className="w-full sm:w-auto min-w-[200px] bg-blue-600 hover:bg-blue-700 text-white">
                     {loading ? 'Processing...' : 'Sign & Complete W-8BEN'}
                 </Button>
             </CardFooter>

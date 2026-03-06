@@ -53,8 +53,8 @@ export function WelcomeStep({ onNext }: WelcomeStepProps) {
                     </ul>
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-end pt-2 pb-6 px-6">
-                <Button onClick={onNext} className="bg-blue-600 hover:bg-blue-700 text-white min-w-[150px]">
+            <CardFooter className="flex flex-col sm:flex-row justify-end pt-2 pb-6 px-6">
+                <Button onClick={onNext} className="w-full sm:w-auto min-w-[150px] bg-blue-600 hover:bg-blue-700 text-white">
                     Start Form
                 </Button>
             </CardFooter>

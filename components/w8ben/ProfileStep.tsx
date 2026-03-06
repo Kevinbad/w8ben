@@ -193,7 +193,7 @@ export function ProfileStep({ initialData, onComplete }: ProfileStepProps) {
                     </div>
 
                     <div className="flex justify-end pt-4">
-                        <Button type="submit">
+                        <Button type="submit" className="w-full sm:w-auto">
                             Continue
                         </Button>
                     </div>
