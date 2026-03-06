@@ -11,21 +11,14 @@ export function CompletionStep() {
                 <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
                     <CheckCircle className="h-10 w-10 text-green-600" />
                 </div>
-                <h3 className="text-2xl font-bold leading-6 text-foreground">Onboarding Completed!</h3>
+                <h3 className="text-2xl font-bold leading-6 text-foreground">W-8BEN Successfully Signed!</h3>
                 <div className="mt-4 max-w-xl mx-auto text-base text-muted-foreground">
-                    <p>
-                        Thank you for completing your registration. Your profile and documents have been securely saved.
+                    <p className="mb-4">
+                        Thank you for completing your registration. Your W-8BEN form has been perfectly generated, digitally signed, and securely saved in our records without any issues.
                     </p>
-
-                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mt-6 text-left">
-                        <p className="text-foreground font-medium flex items-start gap-2">
-                            <span className="text-blue-400">ℹ️</span>
-                            <span>Activation Status</span>
-                        </p>
-                        <p className="mt-2 text-sm">
-                            En <strong>24 horas</strong> se compartirán sus credenciales para ver todos los movimientos de sus pagos.
-                        </p>
-                    </div>
+                    <p className="text-lg font-medium text-foreground">
+                        Everything is set up perfectly. Thank you!
+                    </p>
 
                     <p className="mt-6 text-sm italic">
                         Please bookmark this page for future reference.
